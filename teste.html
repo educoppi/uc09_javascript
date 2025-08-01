@@ -1,0 +1,41 @@
+<script>
+ 
+    let posicao = 6
+    let chao = "_"
+    let personagem = "x"
+    let tamanho_mundo = 10
+    let moeda = "$"
+     
+    // input das teclas
+    document.addEventListener("keyup", (e)=>{
+        if( e.key == "ArrowRight"){
+            posicao++
+           
+        }else if(e.key == "ArrowLeft"){
+           
+            posicao--
+       
+        }
+        console.clear()
+        desenhar()
+    } )
+     
+    //game loop
+    function desenhar(){
+        let mapa = ""
+     
+        for(let i = 0; i < tamanho_mundo; i++){
+
+            if( i == posicao){
+                mapa += personagem
+            }else{
+                mapa += chao
+            }
+
+            if(i == 4){
+                mapa =+ moeda 
+            }
+        }
+        console.log(mapa)
+    }
+</script>
