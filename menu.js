@@ -27,6 +27,7 @@ function main(){
 }
     
 function cadastrar(){
+    console.clear()
     console.log("---- CADASTRO ----")
     nome = prompt("Digite o nome: ")
     idade = parseInt(prompt("Digite a idade: "))
@@ -36,17 +37,22 @@ function cadastrar(){
 
 
 function listar(){
+    console.clear()
     console.log("---- LISTAR ----")
     if(nome == null && idade == null && ativo == null){
         prompt("Nenhum usuario cadastrado, pressione enter para continuar...")
         main()
+        return
     }
 
     let resposta = "SIM"
     if(!ativo){
         resposta = "NÃO"
     }
-    console.log("1 - Nome: ["+nome+"] | Idade: ["+idade+"] | Ativo: ["+resposta+"]")
+    //console.log("1 - Nome: ["+nome+"] | Idade: ["+idade+"] | Ativo: ["+resposta+"]")
+
+    //INTERPOLAÇÃO
+    console.log(`1 - Nome: [${nome}] | Idade: [${idade}] | Ativo: [${resposta}]`)
     prompt("Pressione enter para continuar...")
     main()
 }
