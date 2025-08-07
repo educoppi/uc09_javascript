@@ -32,6 +32,11 @@ let usuarios = [
         id: 6,
         nome: "Bruxa do 71",
         idade: 300
+    },
+    {
+        id: 7,
+        nome: "Pópis",
+        idade: 9
     }
 ]
 
@@ -90,8 +95,14 @@ function buscaPorNome(nome){
 }
 
 function buscaQualquerParteDoNome(nome){
+
+    
     for( let i = 0; i < usuarios.length; i++ ){
-        if(usuarios[i].nome.toUpperCase().includes(nome.toUpperCase())){
+        let aux = usuarios[i].nome
+        aux = aux.toLowerCase()
+        aux = aux.replaceAll("ó", "o")
+
+        if(aux.includes(nome.toLowerCase())){
             console.log(`ID [${usuarios[i].id}] - Nome: ${usuarios[i].nome}, Idade: ${usuarios[i].idade}`)
         }
     }
