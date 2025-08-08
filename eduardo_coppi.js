@@ -19,12 +19,18 @@ let remedios = [
     {codigo: 2, nome: "Dipirona", dataValidade: "05-02-2029"}
 ]
 
-let encaminhamentos = [
-    {codigo: 1, nome: "Raio-x"},
-    {codigo: 1, nome: "enfermaria"},
+let receitas = []
+
+let servicos = [
+    {codigo: 1, nome: "Exame de Sangue", tipo: "Laboratório"},
+    {codigo: 2, nome: "Exame de Urina", tipo: "Laboratório"},
+    {codigo: 3, nome: "Raio-x", tipo: "Imagem"},
+    {codigo: 4, nome: "Ultrassonografia", tipo: "Imagem"},
+    {codigo: 5, nome: "Eletrocardiograma", tipo: "Exame específico"},
+    {codigo: 6, nome: "Endoscopia", tipo: "Exame específico"},
 ]
 
-let receitas = []
+let encaminhamentos = []
 
 let usuarioLogado = null
 
@@ -73,15 +79,18 @@ function telaInicial(){
     }else if( opcao == "2" ){
         consultaDeRemedios()
     }else if( opcao == "3" ){
-
+        criaReceitas()
+    }else if( opcao == "4" ){
+        criaEncaminhamento()
     }else{
         prompt("Opção inválida, pressione ENTER tentar novamente...")
         telaInicial()
     }
 }
 
-//OPCAO 1 TELA INICIAL:
 
+
+//OPCAO 1 TELA INICIAL:
 //GERENCIA OS PACIENTES
 function gerenciaPacientes(){
     console.clear()
@@ -106,11 +115,19 @@ function gerenciaPacientes(){
 
 //OPCAO 1 DE GERENCIA PACIENTES
 function consultaTodasFichas(){
+    let alergia = ""
+
     console.clear()
     console.log("------------------------")
     console.log("------- Pacientes ------")
     for(let i = 0; i < pacientes.length; i++){
-        console.log(`[${pacientes[i].codigo}] - Nome: ${pacientes[i].nome} - Alergia: ${pacientes[i].alergia}`)
+        if(pacientes[i].alergia == null){
+            alergia = "Nenhuma"
+        }else{
+            alergia = pacientes[i].alergia
+        }
+
+        console.log(`[${pacientes[i].codigo}] - Nome: ${pacientes[i].nome} - Alergia: ${alergia}`)
     }
     prompt("Pressione ENTER para voltar para a tela inicial...")
     telaInicial()
@@ -148,6 +165,11 @@ function alteraFichaPaciente(){
     let alergia = ""
     let aux = true
     let cod = prompt("Digite o codigo do paciente: ")
+
+    if(!validaCodPaciente(cod)){
+        prompt("Código inválido, pressione ENTER para voltar para a tela inicial...")
+        telaInicial()
+    }
 
     for(let i = 0; i < pacientes.length; i++){
         if(pacientes[i].alergia == null){
@@ -190,7 +212,8 @@ function alteraFichaPaciente(){
 
 
 
-//CONSULTA DE REMEDIOS
+//OPCAO 2 DE TELA INICIAL
+//CONSULTA TODOS REMEDIOS
 function consultaDeRemedios(){
     console.clear()
     console.log("-----------------------")
@@ -199,6 +222,157 @@ function consultaDeRemedios(){
         dataValidade = remedios[i].dataValidade.replaceAll("-", "/")
         console.log(`[${remedios[i].codigo}] - Nome: ${remedios[i].nome} - Data de Validade: ${dataValidade}`)
     }
+    prompt("Pressione ENTER para voltar para a tela inicial...")
+    telaInicial()
+}
+
+
+
+//OPCAO 3 DE TELA INICIAL
+//CRIA RECEITAS MÉDICAS
+function criaReceitas(){
+    console.clear()
+    console.log("-----------------------------")
+    console.log("------- Receita Médica ------")
+    let codPaciente = parseInt(prompt("Digite o código do paciente: "))
+
+    if(!validaCodPaciente(codPaciente)){
+        prompt("Código de paciente inválido, pressione ENTER para voltar para a tela inicial...")
+        telaInicial()
+    }
+
+    let codRemedio = prompt("Digite o codigo do remédio: ")
+    
+    if(!validaCodRemedio(codRemedio)){
+        prompt("Código do remédio inválido, pressione ENTER para voltar para a tela inicial...")
+        telaInicial()
+    }
+
+    let instrucaoDeUso = prompt("Digite as instruções de uso do medicamento: ")
+
+    receita = {
+        codPaciente: codPaciente,
+        codRemedio: codRemedio,
+        instrucaoDeUso: instrucaoDeUso
+    }
+
+    receitas.push(receita)
+    console.log("Receita Cadastrada com sucesso!")
+    listaReceita(codPaciente, codRemedio, instrucaoDeUso)
+}
+
+//VALIDA O CODIGO DIGITADO DO PACIENTE
+function validaCodPaciente(codPaciente){
+    let aux = false
+    for(let i = 0; i < pacientes.length; i++){
+        if(codPaciente == pacientes[i].codigo){
+            aux = true
+            return aux
+        }
+    }
+
+    if(!aux){
+        return aux
+    }
+}
+
+//VALIDA O CODIGO DIGITADO DO REMEDIO
+function validaCodRemedio(codRemedio){
+    let aux = false
+    for(let i = 0; i < remedios.length; i++){
+        if(codRemedio == remedios[i].codigo){
+            aux = true
+            return aux
+        }
+    }
+
+    if(!aux){
+        return aux
+    }
+}
+
+//LISTA A RECEITA CRIADA
+function listaReceita(codPaciente, codRemedio, instrucaoDeUso){
+    let nomePaciente = ""
+    let nomeRemedio = ""
+
+    for(let i = 0; i < pacientes.length; i++){
+        if(codPaciente == pacientes[i].codigo){
+            nomePaciente = pacientes[i].nome
+        }
+    }
+
+    for(let i = 0; i < remedios.length; i++){
+        if(codRemedio == remedios[i].codigo){
+            nomeRemedio = remedios[i].nome
+        }
+    }
+
+    console.log(" --- RECEITA ---")
+    console.log(`-- Paciente: ${nomePaciente}`)
+    console.log(`-- Remédio: ${nomeRemedio}`)
+    console.log(`-- Instruções de uso: ${instrucaoDeUso}`)
+    prompt("Pressione ENTER para voltar para a tela inicial...")
+    telaInicial()
+}
+
+
+
+
+
+//OPCAO 4 DA TELA INICIAL
+//CRIAR ENCAMINHAMENTOS
+function criaEncaminhamento(){
+    let codPaciente = prompt("Digite o código do paciente que será encaminhado: ")
+
+    if(!validaCodPaciente(codPaciente)){
+        prompt("Código de paciente inválido, pressione ENTER para voltar para a tela inicial...")
+        telaInicial()
+    }
+
+    listaServicos()
+
+    let codServico = parseInt(prompt("Digite o código do serviço para encaminhar: "))
+
+    let observacao = prompt("Digite uma observação: ")
+    
+    let encaminhamento = {
+        codPaciente: codPaciente,
+        codServico: codServico,
+        observacao: observacao
+    }
+
+    encaminhamentos.push(encaminhamento)
+    console.log("Encaminhamento Cadastrado com sucesso!")
+    listaEncaminhamento(codPaciente, codServico, observacao)
+}
+
+function listaServicos(){
+    for(let i = 0;i < servicos.length; i++){
+        console.log(`[${servicos[i].codigo}] - Nome: ${servicos[i].nome} - Tipo: ${servicos[i].tipo}`)
+    }
+}
+
+function listaEncaminhamento(codPaciente, codServico, observacao){
+    let nomePaciente = ""
+    let nomeServico = ""
+
+    for(let i = 0; i < pacientes.length; i++){
+        if(codPaciente == pacientes[i].codigo){
+            nomePaciente = pacientes[i].nome
+        }
+    }
+
+    for(let i = 0; i < servicos.length; i++){
+        if(codServico == servicos[i].codigo){
+            nomeServico = servicos[i].nome
+        }
+    }
+
+    console.log(" --- ENCAMINHAMENTO ---")
+    console.log(`-- Paciente: ${nomePaciente}`)
+    console.log(`-- Serviço: ${nomeServico}`)
+    console.log(`-- Observação: ${observacao}`)
     prompt("Pressione ENTER para voltar para a tela inicial...")
     telaInicial()
 }
