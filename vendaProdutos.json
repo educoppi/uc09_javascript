@@ -1,0 +1,8 @@
+[
+  { "idProduto": 1, "idVenda": 1, "quantidade": 2 },
+  { "idProduto": 2, "idVenda": 1, "quantidade": 1 },
+  { "idProduto": 3, "idVenda": 2, "quantidade": 1 },
+  { "idProduto": 4, "idVenda": 2, "quantidade": 2 },
+  { "idProduto": 1, "idVenda": 3, "quantidade": 1 },
+  { "idProduto": 5, "idVenda": 3, "quantidade": 1 }
+]
